@@ -97,40 +97,15 @@ The output should contain lines similar to these:
 ### 3.) Create designated directories for the current version and next upgrade.
 
 ```
-mkdir -p ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow/bin
 mkdir -p ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow-rc3/bin
+mkdir -p ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow-fix/bin
 ```
 ### 4.) Download the current and updated `bcnad` binaries and move it to the designated directory.
 
 This guide explains how to download the pre-compiled binary. If you want to build the binary from the source, please refer to [this link](https://github.com/BitCannaGlobal/bcna/blob/main/1.install-compile.md#option-2-compile-instructions)
 
-### 4.1) Download the current `bcnad` version `v1.6.0-rc2`.
+### 4.1) Download the current `bcnad` version `v1.6.0-rc3`.
 > Alternatively, you could also copy your currently running version from the bin directory.
-```
-cd ~
-rm -f bcnad #remove the previous downloads
-wget -nc https://github.com/BitCannaGlobal/bcna/releases/download/v1.6.0-rc2/bcna_linux_amd64.tar.gz
-```
-Check the sha256sum.
-```
-sha256sum ./bcnad
-```
-> It must return: `1df53fc3e0f7d7d5ee0e6e5368634ebc5994f5f43ac05118aad65502bf26e723`
-
-Verify that you have the correct version.
-```
-tar zxvf  bcna_linux_amd64.tar.gz
-rm bcna_linux_amd64.tar.gz
-./bcnad version
-```
-> It must return: **`v1.6.0-rc2`**
-
-Move the newly built binary to the designated upgrade directory.
-> If you build the binary from the source, move it to the same folder.
-```
-mv ./bcnad ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow/bin
-```
-### 4.2) Download the upgrade `bcnad` version `v1.6.0-rc3`.
 ```
 cd ~
 rm -f bcnad #remove the previous downloads
@@ -155,13 +130,38 @@ Move the newly built binary to the designated upgrade directory.
 ```
 mv ./bcnad ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow-rc3/bin
 ```
+### 4.2) Download the upgrade `bcnad` version `v1.6.1`.
+```
+cd ~
+rm -f bcnad #remove the previous downloads
+wget -nc https://github.com/BitCannaGlobal/bcna/releases/download/v1.6.1/bcna_linux_amd64.tar.gz
+```
+Check the sha256sum.
+```
+sha256sum ./bcnad
+```
+> It must return: `6937aef187a6e47fb01cbbe1911fc845ffea986aff3e2cdbef982a62426fa610`
+
+Verify that you have the correct version.
+```
+tar zxvf  bcna_linux_amd64.tar.gz
+rm bcna_linux_amd64.tar.gz
+./bcnad version
+```
+> It must return: **`v1.6.1`**
+
+Move the newly built binary to the designated upgrade directory.
+> If you build the binary from the source, move it to the same folder.
+```
+mv ./bcnad ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow-fix/bin
+```
 ### 5.) Setup Cosmovisor's current version link.
 
 Next step is to let Cosmovisor know in which directory the current version of `bcnad` software is located.
 
 This command creates a symbolic link, pointing `current` to the currently active directory.
 ```
-ln -sfn  ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow ${HOME}/.bcna/cosmovisor/current
+ln -sfn  ${HOME}/.bcna/cosmovisor/upgrades/vigorous-grow-rc3 ${HOME}/.bcna/cosmovisor/current
 ```
 ### 6.) To see if everything is OK, run:
 
@@ -171,7 +171,7 @@ ls .bcna/cosmovisor/ -lh
 The output should look like this:
 ```
 total 8.0K
-lrwxrwxrwx 1 user user   35 Feb 23 20:16 current -> /home/user/.bcna/cosmovisor/upgrades/vigorous-grow
+lrwxrwxrwx 1 user user   35 Feb 23 20:16 current -> /home/user/.bcna/cosmovisor/upgrades/vigorous-grow-rc3
 drwxrwxr-x 3 user user 4.0K Feb 23 20:09 genesis
 drwxrwxr-x 4 user user 4.0K Feb 23 20:15 upgrades
 ```
@@ -224,12 +224,12 @@ Show Cosmovisor's version.
 ```
 cosmovisor run version
 ``` 
-This will be **`v1.6.0-rc2` before** the upgrade and **`v1.6.0-rc3` after** the upgrade.
+This will be **`v1.6.0-rc3` before** the upgrade and **`v1.6.1` after** the upgrade.
 
 The output should look like this:
  ```
-20:27PM INF running app args=["version"] module=cosmovisor path=/home/user/.bcna/cosmovisor/upgrades/vigorous-grow
-1.6.0-rc2
+20:27PM INF running app args=["version"] module=cosmovisor path=/home/user/.bcna/cosmovisor/upgrades/vigorous-grow-rc3
+1.6.0-rc3
 ```
 * Show BitCanna version: `bcnad version` Must show the same version as above
 * Show Cosmovisor sync info and status: `cosmovisor run status` 
